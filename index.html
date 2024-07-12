@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coin Flip to Check Animation</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+      .scene {
+        perspective: 1000px;
+      }
+      .coin {
+        width: 115px;
+        height: 115px;
+        position: relative;
+        transform-style: preserve-3d;
+        border-radius: 50%;
+        /* background-color: gold; */
+        animation: flip 5s;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5),
+          0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .coin::before,
+      .coin::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        /* background-color: gold; */
+        backface-visibility: hidden;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5),
+          0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      /* .coin::before {
+        background-color: #d4af37;
+      } */
+      /* .coin::after {
+        background-color: #c2a73d;
+        transform: rotateY(180deg);
+      } */
+      @keyframes flip {
+        0% {
+          transform: rotateY(0) rotateX(0);
+        }
+        25% {
+          transform: rotateY(180deg) rotateX(360deg);
+        }
+        50% {
+          transform: rotateY(360deg) rotateX(720deg);
+        }
+        75% {
+          transform: rotateY(540deg) rotateX(1080deg);
+        }
+        100% {
+          transform: rotateY(720deg) rotateX(1440deg);
+        }
+      }
+      .check {
+        display: none; /* Hide the check initially */
+        width: 115px;
+        height: 115px;
+        border-radius: 50%;
+        /* background-color: gold; */
+        position: relative;
+        /* box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5),
+          0 0 10px rgba(0, 0, 0, 0.5); */
+        border: 4px solid black;
+        align-items: center;
+        justify-content: center;
+      }
+      .check.animate {
+        animation: fadeIn 0.5s forwards;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .check-mark {
+        width: 60px;
+        height: 60px;
+        position: relative;
+      }
+      .check-mark-line {
+        position: absolute;
+        height: 6px;
+        background-color: #7b5d82;
+        border-radius: 3px;
+        transform-origin: left center;
+        opacity: 0;
+      }
+      .check-mark-line.first {
+        width: 25px;
+        top: 25.4px;
+        left: 4.7px;
+        transform: rotate(45deg);
+      }
+      .check-mark-line.second {
+        width: 45px;
+        top: 44px;
+        left: 19.3px;
+        transform: rotate(-45deg);
+      }
+      @keyframes drawFirst {
+        0% {
+          opacity: 0;
+          width: 0;
+        }
+        100% {
+          opacity: 1;
+          width: 25px;
+        }
+      }
+      @keyframes drawSecond {
+        0% {
+          opacity: 0;
+          width: 0;
+        }
+        100% {
+          opacity: 1;
+          width: 45px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scene">
+      <div class="coin"></div>
+      <div class="check">
+        <div class="check-mark">
+          <div class="check-mark-line first"></div>
+          <div class="check-mark-line second"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      setTimeout(() => {
+        document.querySelector(".coin").style.display = "none";
+        const check = document.querySelector(".check");
+        check.style.display = "flex"; // Show the check element
+        check.classList.add("animate");
+      }, 3000); // 10 seconds
+      setTimeout(() => {
+        const firstLine = document.querySelector(".check-mark-line.first");
+        const secondLine = document.querySelector(".check-mark-line.second");
+        firstLine.style.animation = "drawFirst 1s forwards";
+        secondLine.style.animation = "drawSecond 1s forwards 0.5s";
+      }, 3000); // 15 seconds total (10 seconds for coin + 5 seconds for check mark)
+    </script>
+  </body>
+</html>
